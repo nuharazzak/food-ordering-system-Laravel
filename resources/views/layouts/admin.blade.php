@@ -39,9 +39,12 @@
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </button>
             <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2">
-                <span class="bg-orange-500 text-white p-1.5 rounded-lg">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-11.314l.707.707m11.314 11.314l.707-.707M4 5a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm10 10a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2zm0-10a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2z"></path></svg>
-                </span>
+                <span class="bg-white text-orange-600 p-2.5 rounded-2xl shadow-md shadow-orange-500/20 group-hover:scale-105 transition-transform duration-300 border border-orange-100">
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 2v9a3 3 0 003 3h1v7a1 1 0 002 0v-7h1a3 3 0 003-3V2h-2v9a1 1 0 01-1 1h-1V2h-2v10h-1a1 1 0 01-1-1V2H7z"></path>
+                                <path d="M3 2v7c0 1.1.9 2 2 2h1v10a1 1 0 002 0V2H3z"></path>
+                            </svg>
+                        </span>
                 <span class="text-lg font-bold tracking-tight text-white">FoodHub <span class="text-orange-500 font-medium text-sm bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/20">Admin</span></span>
             </a>
         </div>

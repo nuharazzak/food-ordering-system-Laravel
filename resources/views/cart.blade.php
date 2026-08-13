@@ -151,7 +151,18 @@
                         </div>
 
                         <!-- Submit Order Button -->
-                        <button type="submit" class="w-full mt-4 bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-extrabold py-4 rounded-2xl shadow-lg shadow-orange-500/20 hover:shadow-orange-500/35 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300">
+                        <button type="submit"
+                            style="color: white !important;"
+                            class="w-full mt-4
+                                bg-orange-500 hover:bg-orange-600
+                                font-bold text-lg
+                                py-4 px-6
+                                rounded-2xl
+                                shadow-lg shadow-orange-500/30
+                                hover:shadow-xl
+                                hover:-translate-y-0.5
+                                active:translate-y-0
+                                transition-all duration-300">
                             Confirm & Place Order
                         </button>
                     </form>
@@ -165,9 +176,20 @@
             <span class="text-5xl">🛒</span>
             <h3 class="text-lg font-bold text-slate-800 mt-4">Your cart is empty</h3>
             <p class="text-slate-500 mt-2 text-sm max-w-xs mx-auto">Looks like you haven't added any of our delicious meals to your cart yet. Go to our menu to get started!</p>
-            <a href="{{ route('menu') }}" class="inline-block mt-6 bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold px-6 py-3.5 rounded-2xl shadow-md text-sm transition-all duration-200 hover:scale-105">
-                Go To Food Menu
-            </a>
+            <a href="{{ route('menu') }}"
+    style="color: white !important;"
+    class="inline-block mt-6
+           bg-orange-500 hover:bg-orange-600
+           font-bold text-sm
+           px-6 py-3.5
+           rounded-2xl
+           shadow-lg shadow-orange-500/30
+           hover:shadow-xl
+           hover:-translate-y-0.5
+           active:translate-y-0
+           transition-all duration-300">
+    Go To Food Menu
+</a>
         </div>
     @endif
 </div>
