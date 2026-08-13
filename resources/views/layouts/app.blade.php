@@ -58,12 +58,13 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <a href="{{ route('home') }}" class="flex items-center gap-2 group">
-                        <span class="bg-gradient-to-r from-orange-500 to-red-600 text-white p-2.5 rounded-2xl shadow-md shadow-orange-500/20 group-hover:scale-105 transition-transform duration-300">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-11.314l.707.707m11.314 11.314l.707-.707M4 5a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm10 10a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2zm0-10a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2z"></path>
+                        <span class="bg-white text-orange-600 p-2.5 rounded-2xl shadow-md shadow-orange-500/20 group-hover:scale-105 transition-transform duration-300 border border-orange-100">
+                            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 2v9a3 3 0 003 3h1v7a1 1 0 002 0v-7h1a3 3 0 003-3V2h-2v9a1 1 0 01-1 1h-1V2h-2v10h-1a1 1 0 01-1-1V2H7z"></path>
+                                <path d="M3 2v7c0 1.1.9 2 2 2h1v10a1 1 0 002 0V2H3z"></path>
                             </svg>
                         </span>
-                        <span class="text-2xl font-extrabold bg-gradient-to-r from-slate-900 to-slate-800 bg-clip-text text-transparent tracking-tight">Food<span class="text-orange-500">Hub</span></span>
+                        <span class="text-2xl font-extrabold text-slate-800 tracking-tight">Food<span class="text-orange-500">Hub</span></span>
                     </a>
                 </div>
 
@@ -81,7 +82,9 @@
 
                 <!-- Cart and Quick Actions -->
                 <div class="hidden md:flex items-center space-x-4">
-                    <a href="{{ route('cart.index') }}" class="relative p-2.5 text-slate-600 hover:text-orange-500 bg-slate-50 hover:bg-orange-50 rounded-2xl transition-all duration-300">
+                    <a href="{{ route('cart.index') }}" class="relative p-2.5 text-white bg-orange-400 
+          hover:bg-orange-600 rounded-2xl 
+          transition-all duration-300">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                         </svg>
@@ -100,14 +103,15 @@
                         @endif
                     </a>
                     
-                    <a href="{{ route('menu') }}" class="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold px-6 py-3 rounded-2xl shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 hover:-translate-y-0.5 transition-all duration-300">
-                        Order Now
-                    </a>
+                    <a href="{{ route('menu') }}"
+   class="bg-white hover:bg-orange-50 text-orange-600 font-bold px-6 py-3 rounded-2xl border-2 border-orange-500 shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:border-orange-600 hover:-translate-y-0.5 transition-all duration-300">
+    Order Now
+</a>
                 </div>
 
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden flex items-center gap-4">
-                    <a href="{{ route('cart.index') }}" class="relative p-2.5 text-slate-600 hover:text-orange-500 bg-slate-50 rounded-xl">
+                    <a href="{{ route('cart.index') }}" class="relative p-2.5 text-orange-600 hover:text-orange-700 bg-white hover:bg-orange-50 rounded-xl shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 hover:-translate-y-0.5 transition-all duration-300">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                         </svg>
@@ -196,7 +200,7 @@
                 <div class="space-y-4">
                     <div class="flex items-center gap-2">
                         <span class="bg-orange-500 text-white p-2 rounded-xl">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-11.314l.707.707m11.314 11.314l.707-.707M4 5a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm10 10a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2zm0-10a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 2v9a3 3 0 003 3h1v7a1 1 0 002 0v-7h1a3 3 0 003-3V2h-2v9a1 1 0 01-1 1h-1V2h-2v10h-1a1 1 0 01-1-1V2H7z"></path><path d="M3 2v7c0 1.1.9 2 2 2h1v10a1 1 0 002 0V2H3z"></path></svg>
                         </span>
                         <span class="text-xl font-bold text-white tracking-tight">Food<span class="text-orange-500">Hub</span></span>
                     </div>
@@ -246,7 +250,7 @@
 
             <!-- Bottom Line -->
             <div class="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
-                <p>&copy; {{ date('Y') }} FoodHub Restaurant. All rights reserved. Designed for Developer Portfolio.</p>
+                <p>&copy; {{ date('Y') }} FoodHub Restaurant. All rights reserved.</p>
                 <div class="flex gap-4">
                     <a href="{{ route('admin.login') }}" class="hover:text-white transition-colors duration-200">Admin Section</a>
                 </div>
