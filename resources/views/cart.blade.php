@@ -150,10 +150,53 @@
                             @enderror
                         </div>
 
-                        <!-- Submit Order Button -->
+                        {{-- Payment Method --}}
+                        <div class="pt-2">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Payment Method</label>
+
+                            <div class="space-y-2">
+                                {{-- Cash on Delivery option --}}
+                                <label for="payment_cod" class="flex items-center gap-3 p-4 rounded-2xl border border-slate-200 bg-slate-50 cursor-pointer transition-all duration-200 hover:border-orange-300 hover:bg-orange-50/30 peer-checked:border-orange-500 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50/40">
+                                    <input type="radio" id="payment_cod" name="payment_method" value="cash_on_delivery" checked
+                                           class="w-4 h-4 accent-orange-500 flex-shrink-0">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-xl">💵</span>
+                                        <div>
+                                            <p class="text-sm font-bold text-slate-800">Cash on Delivery</p>
+                                            <p class="text-xs text-slate-400 mt-0.5">Pay in cash when your order arrives</p>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                {{-- Pay Online (PayHere) option --}}
+                                <label for="payment_payhere" class="flex items-center gap-3 p-4 rounded-2xl border border-slate-200 bg-slate-50 cursor-pointer transition-all duration-200 hover:border-orange-300 hover:bg-orange-50/30 has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50/40">
+                                    <input type="radio" id="payment_payhere" name="payment_method" value="payhere"
+                                           class="w-4 h-4 accent-orange-500 flex-shrink-0">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-xl">💳</span>
+                                        <div>
+                                            <p class="text-sm font-bold text-slate-800">Pay Online</p>
+                                            <p class="text-xs text-slate-400 mt-0.5">Secure payment powered by PayHere</p>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+
+                            @error('payment_method')
+                                <span class="text-xs text-red-500 font-medium mt-1 block">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        {{-- Order Total Display --}}
+                        <div class="flex justify-between items-center py-3 border-t border-slate-100 mt-2">
+                            <span class="text-sm font-bold text-slate-600">Order Total</span>
+                            <span class="text-base font-extrabold text-orange-500">Rs. {{ number_format($total, 2) }}</span>
+                        </div>
+
+                        {{-- Submit Order Button --}}
                         <button type="submit"
                             style="color: white !important;"
-                            class="w-full mt-4
+                            class="w-full mt-2
                                 bg-orange-500 hover:bg-orange-600
                                 font-bold text-lg
                                 py-4 px-6
@@ -163,7 +206,7 @@
                                 hover:-translate-y-0.5
                                 active:translate-y-0
                                 transition-all duration-300">
-                            Confirm & Place Order
+                            Confirm &amp; Place Order
                         </button>
                     </form>
                 </div>

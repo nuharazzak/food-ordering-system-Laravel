@@ -61,7 +61,20 @@
                     <div class="space-y-1 text-slate-600">
                         <p>Date: <span class="font-medium text-slate-800">{{ $order->created_at->format('M d, Y h:i A') }}</span></p>
                         <p>Estimated prep: <span class="font-medium text-slate-800">20-30 minutes</span></p>
-                        <p>Payment: <span class="font-medium text-slate-800">Cash on Delivery</span></p>
+                        <p>Payment Method: <span class="font-medium text-slate-800">
+                            {{ $order->payment_method === 'payhere' ? 'Online Payment (PayHere)' : 'Cash on Delivery' }}
+                        </span></p>
+                        <p>Payment Status:
+                            @if($order->payment_status === 'paid')
+                                <span class="font-bold text-emerald-600">✅ Paid</span>
+                            @elseif($order->payment_status === 'pending')
+                                <span class="font-bold text-amber-600">⏳ Pending</span>
+                            @elseif($order->payment_status === 'failed')
+                                <span class="font-bold text-red-600">❌ Failed</span>
+                            @else
+                                <span class="font-bold text-slate-500">{{ ucfirst($order->payment_status) }}</span>
+                            @endif
+                        </p>
                     </div>
                 </div>
             </div>

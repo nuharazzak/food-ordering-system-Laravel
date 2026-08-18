@@ -35,4 +35,20 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | PayHere Payment Gateway
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for PayHere sandbox payment gateway integration.
+    | Set PAYHERE_SANDBOX=false and update credentials to switch to production.
+    | Never commit real credentials — use .env only.
+    |
+    */
+    'payhere' => [
+        'merchant_id'     => env('PAYHERE_MERCHANT_ID'),
+        'merchant_secret' => env('PAYHERE_MERCHANT_SECRET'),
+        'sandbox'         => env('PAYHERE_SANDBOX', true),
+    ],
+
 ];

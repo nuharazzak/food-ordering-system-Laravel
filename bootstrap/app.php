@@ -15,6 +15,13 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
         ]);
+
+        // Exclude the PayHere server notification endpoint from CSRF verification.
+        // PayHere calls this URL directly from its own servers (not a browser form),
+        // so there is no CSRF token in the request.
+        $middleware->validateCsrfTokens(except: [
+            '/payment/notify',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

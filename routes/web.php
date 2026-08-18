@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -26,6 +27,33 @@ Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.
 
 // Checkout Process Route
 Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout.process');
+
+/*
+|--------------------------------------------------------------------------
+| PayHere Payment Routes
+|--------------------------------------------------------------------------
+|
+| /payment/checkout/{order} — Builds and auto-submits the PayHere sandbox form
+| /payment/notify           — Server-to-server callback from PayHere (CSRF excluded)
+| /payment/success          — Customer return URL after successful payment
+| /payment/cancel           — Customer return URL after cancelled payment
+|
+*/
+
+// Customer browser: render the auto-submitting PayHere form
+Route::get('/payment/checkout/{order}', [PaymentController::class, 'checkout'])
+    ->name('payment.checkout');
+
+// PayHere server notification — CSRF exclusion is configured in bootstrap/app.php
+Route::post('/payment/notify', [PaymentController::class, 'notify'])
+    ->name('payment.notify');
+
+// Customer return URLs (GET — browser redirect from PayHere)
+Route::get('/payment/success', [PaymentController::class, 'success'])
+    ->name('payment.success');
+
+Route::get('/payment/cancel', [PaymentController::class, 'cancel'])
+    ->name('payment.cancel');
 
 /*
 |--------------------------------------------------------------------------

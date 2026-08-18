@@ -92,6 +92,7 @@
                             <th class="py-4 px-6">Order Info</th>
                             <th class="py-4 px-6">Customer & Address</th>
                             <th class="py-4 px-6">Order Items</th>
+                            <th class="py-4 px-6 text-center">Payment</th>
                             <th class="py-4 px-6 text-right">Amount</th>
                             <th class="py-4 px-6 text-center">Status Update</th>
                         </tr>
@@ -122,6 +123,31 @@
                                             </li>
                                         @endforeach
                                     </ul>
+                                </td>
+
+                                <!-- Payment Status Badge -->
+                                <td class="py-5 px-6 text-center min-w-[130px]">
+                                    @if(($order->payment_method ?? 'cash_on_delivery') === 'cash_on_delivery')
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-50 text-slate-600 border border-slate-200">
+                                            💵 COD
+                                        </span>
+                                    @elseif($order->payment_status === 'paid')
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                            <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Paid
+                                        </span>
+                                    @elseif($order->payment_status === 'pending')
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                                            <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Pending
+                                        </span>
+                                    @elseif($order->payment_status === 'failed')
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-red-50 text-red-700 border border-red-200">
+                                            <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span> Failed
+                                        </span>
+                                    @else
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-50 text-slate-500 border border-slate-200">
+                                            <span class="w-1.5 h-1.5 bg-slate-400 rounded-full"></span> {{ ucfirst($order->payment_status ?? 'pending') }}
+                                        </span>
+                                    @endif
                                 </td>
 
                                 <!-- Total amount -->

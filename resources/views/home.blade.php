@@ -6,7 +6,7 @@
 <!-- Hero Section -->
 <section class="relative bg-slate-900 text-white overflow-hidden py-24 lg:py-32">
     <!-- Background Decor -->
-    <div class="absolute inset-0 bg-cover bg-center opacity-75 filter blur-[2px]" style="background-image: url('{{ asset('images/categories/pizza.jpg') }}');"></div>
+    <div class="absolute inset-0 bg-cover bg-center opacity-75 filter blur-[2px]" style="background-image: url('{{ asset('images/food_hero_bg.jpg') }}');"></div>
     <div class="absolute inset-0 bg-gradient-to-r from-slate-990 via-slate-900/90 to-transparent"></div>
     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
