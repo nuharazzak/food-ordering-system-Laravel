@@ -33,11 +33,11 @@ FoodHub is a full-stack restaurant ordering platform built with **Laravel**. It 
 
 | Cart & Checkout | Orders Manager |
 |---|---|
-| ![Cart](screenshots/03-cart-checkout.png) | ![Orders](screenshots/04-admin-orders.png) |
+| ![Cart](screenshots/03-cart-checkout.png) | ![Orders](screenshots/04-shopping-cart.png) |
 
 | Manage Categories | Add Menu Item |
 |---|---|
-| ![Categories](screenshots/05-admin-categories.png) | ![Add Item](screenshots/06-admin-add-item.png) |
+| ![Categories](screenshots/05-admin-categories.png) | ![Add Item](screenshots/06-admin-add-item.png) | ![Admin Dashboard](screenshots/07-admin-dashboard.png) |
 
 ---
 
