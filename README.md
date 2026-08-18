@@ -1,232 +1,207 @@
-# FoodHub — Laravel Food Ordering System
+# 🍔 FoodHub — Restaurant Ordering & Management System
 
-A portfolio food ordering web application built with Laravel 11, Tailwind CSS, and MySQL.
-Demonstrates a realistic end-to-end ordering flow with PayHere Sandbox payment integration.
+FoodHub is a full-stack restaurant ordering platform built with **Laravel**. It pairs a polished customer-facing storefront (browse menu, cart, checkout) with a complete admin back office (menu, categories, and order management) — giving a restaurant everything it needs to take orders online and run its kitchen workflow.
 
----
-
-## PayHere Sandbox Payment Integration
-
-> ⚠️ **This is a portfolio/demo project. No real payments are processed.**
-> PayHere Sandbox is used exclusively. Your card details are never stored.
-
-### What Is PayHere?
-
-[PayHere](https://www.payhere.lk/) is a Sri Lankan payment gateway. This project integrates
-the **PayHere Sandbox** environment to demonstrate realistic online payment flows without
-processing real money.
+![Homepage](screenshots/01-homepage.png)
 
 ---
 
-### Required `.env` Variables
+## ✨ Key Features
 
-Add these to your `.env` file (get credentials from [sandbox.payhere.lk](https://sandbox.payhere.lk)):
+### Customer Storefront
+- **Landing page** with hero banner, featured "Chef's Specialties," and quick category browsing (Pizza, Burgers, Drinks, Desserts, Pasta, Fried Rice)
+- **Full menu page** with live search-by-name and one-click category filters
+- **Shopping cart** with editable quantities, per-item subtotal, and item removal
+- **Checkout flow** that captures customer name, phone, and delivery address, with a live bill breakdown (subtotal + flat delivery fee = total)
+- **Dual payment options** — Cash on Delivery, or online payment via the **PayHere** gateway
+- Responsive layout that adapts cleanly from desktop to mobile
 
-```env
-PAYHERE_MERCHANT_ID=your_sandbox_merchant_id
-PAYHERE_MERCHANT_SECRET=your_sandbox_merchant_secret
-PAYHERE_SANDBOX=true
+### Admin Panel
+- **Orders Manager dashboard** with at-a-glance stats: completed sales, total orders, pending approval count, and orders currently in the kitchen
+- **Order status workflow** — orders move through `Pending → Preparing → Completed`, with filterable tabs and per-order payment status (COD / Pending)
+- **Food Categories management** — full CRUD with auto-generated slugs and a live item count per category
+- **Menu item management** — create/edit dishes with name, category, price, description, image upload (JPG/PNG/WebP, 2MB limit), and an availability toggle to instantly mark items in/out of stock
+- Clean, sidebar-driven admin UI separated from the public storefront (`/admin` section with its own auth)
+
+---
+
+## 🖼️ Screenshots
+
+| Storefront | Menu & Search |
+|---|---|
+| ![Homepage](screenshots/01-homepage.png) | ![Menu](screenshots/02-menu.png) |
+
+| Cart & Checkout | Orders Manager |
+|---|---|
+| ![Cart](screenshots/03-cart-checkout.png) | ![Orders](screenshots/04-admin-orders.png) |
+
+| Manage Categories | Add Menu Item |
+|---|---|
+| ![Categories](screenshots/05-admin-categories.png) | ![Add Item](screenshots/06-admin-add-item.png) |
+
+---
+
+## 🛠️ Tech Stack
+
+- **Backend:** Laravel (PHP)
+- **Frontend:** Blade templates, Tailwind CSS
+- **Database:** MySQL
+- **Payments:** Cash on Delivery + PayHere (online payment gateway)
+- **Storage:** Laravel file storage for menu item images
+
+*(Update this section with your exact package/tooling choices — e.g. Livewire/Alpine.js, specific auth package, etc.)*
+
+---
+
+## 🗄️ Database Schema
+
+```
+categories                     menu_items                      orders
+┌─────────────────┐            ┌─────────────────────┐         ┌──────────────────────┐
+│ id           PK  │◄──────┐   │ id               PK  │    ┌───│ id                PK  │
+│ name             │       └───│ category_id      FK  │    │   │ order_number      UQ  │  e.g. FH-20260815-QXVE5
+│ slug         UQ  │           │ name                 │    │   │ customer_name         │
+│ image                │           │ price                │    │   │ phone                 │
+│ created_at       │           │ description          │    │   │ address               │
+│ updated_at       │           │ image                │    │   │ payment_method        │  cod | online
+└─────────────────┘           │ is_available  bool   │    │   │ payment_status        │  pending | paid
+                               │ created_at           │    │   │ subtotal              │
+                               │ updated_at           │    │   │ delivery_fee          │
+                               └─────────────────────┘    │   │ total_amount          │
+                                        ▲                  │   │ status                │  pending | preparing | completed
+                                        │                  │   │ created_at            │
+                                        │                  │   │ updated_at            │
+                                        │                  │   └──────────────────────┘
+                                        │                  │            ▲
+                                        │                  │            │
+                                        │           order_items         │
+                                        │           ┌──────────────────────┐
+                                        │           │ id               PK  │
+                                        └───────────│ menu_item_id     FK  │
+                                                    │ order_id         FK  ├─────┘
+                                                    │ quantity             │
+                                                    │ unit_price           │
+                                                    │ subtotal             │
+                                                    └──────────────────────┘
+
+admins (or users w/ role)
+┌─────────────────┐
+│ id           PK  │
+│ name             │
+│ email        UQ  │
+│ password         │
+│ role             │  admin
+│ created_at       │
+│ updated_at       │
+└─────────────────┘
 ```
 
-> **Never commit real credentials to Git.** `.env` is already in `.gitignore`.
+### Table Details
+
+**`categories`**
+| Column | Type | Notes |
+|---|---|---|
+| id | bigint, PK | |
+| name | varchar | e.g. "Pizza", "Burgers" |
+| slug | varchar, unique | auto-generated, used in filters/URLs |
+| image | varchar | category thumbnail path |
+| timestamps | | |
+
+**`menu_items`**
+| Column | Type | Notes |
+|---|---|---|
+| id | bigint, PK | |
+| category_id | bigint, FK → categories.id | |
+| name | varchar | dish name |
+| price | decimal(8,2) | |
+| description | text | ingredients/taste profile |
+| image | varchar | dish photo path |
+| is_available | boolean | toggles "Available for order" |
+| timestamps | | |
+
+**`orders`**
+| Column | Type | Notes |
+|---|---|---|
+| id | bigint, PK | |
+| order_number | varchar, unique | e.g. `FH-20260815-QXVE5` |
+| customer_name | varchar | |
+| phone | varchar | |
+| address | text | delivery address |
+| payment_method | enum | `cod`, `online` (PayHere) |
+| payment_status | enum | `pending`, `paid` |
+| subtotal | decimal(8,2) | |
+| delivery_fee | decimal(8,2) | flat fee |
+| total_amount | decimal(8,2) | |
+| status | enum | `pending`, `preparing`, `completed` |
+| timestamps | | |
+
+**`order_items`** *(pivot: orders ↔ menu_items)*
+| Column | Type | Notes |
+|---|---|---|
+| id | bigint, PK | |
+| order_id | bigint, FK → orders.id | |
+| menu_item_id | bigint, FK → menu_items.id | |
+| quantity | int | |
+| unit_price | decimal(8,2) | price at time of order |
+| subtotal | decimal(8,2) | quantity × unit_price |
+
+**`admins`** *(or `users` table with a `role` column)*
+| Column | Type | Notes |
+|---|---|---|
+| id | bigint, PK | |
+| name | varchar | |
+| email | varchar, unique | |
+| password | varchar, hashed | |
+| role | varchar | `admin` |
+| timestamps | | |
+
+> ⚠️ This schema is reconstructed from the visible UI fields (categories, menu items, orders, checkout form) — adjust column names/types to match your actual migrations before publishing.
 
 ---
 
-### How to Configure Merchant ID and Merchant Secret
-
-1. Sign up at [PayHere Sandbox](https://sandbox.payhere.lk)
-2. Go to **Merchant → Settings → Domains & Credentials**
-3. Copy your **Merchant ID** and **Merchant Secret**
-4. Paste them into your `.env` (see above)
-5. Add your site domain (or `localhost`) to the allowed domains list
-
----
-
-### How to Run the Application
+## 🚀 Getting Started
 
 ```bash
+# Clone the repository
+git clone https://github.com/your-username/foodhub.git
+cd foodhub
+
 # Install dependencies
 composer install
-npm install
+npm install && npm run build
 
-# Set up environment
+# Environment setup
 cp .env.example .env
 php artisan key:generate
 
-# Run database migrations
-php artisan migrate
+# Configure your database in .env, then run migrations
+php artisan migrate --seed
 
-# (Optional) Seed the database
-php artisan db:seed
-
-# Start the dev server
+# Start the development server
 php artisan serve
-npm run dev
 ```
 
-Visit: `http://localhost:8000`
+Visit `http://127.0.0.1:8000` for the storefront and `http://127.0.0.1:8000/admin` for the admin panel.
 
 ---
 
-### How to Test Cash on Delivery
+## 📋 Core Modules
 
-1. Browse the menu and add items to cart
-2. Go to Cart / Checkout
-3. Fill in delivery details
-4. Select **Cash on Delivery**
-5. Click **Confirm & Place Order**
-6. ✅ Order is created with `payment_method = cash_on_delivery`, `payment_status = pending`
-
----
-
-### How to Test PayHere Sandbox
-
-1. Browse the menu and add items to cart
-2. Go to Cart / Checkout
-3. Fill in delivery details
-4. Select **Pay Online**
-5. Click **Confirm & Place Order**
-6. You are redirected to the PayHere Sandbox checkout page
-7. Use [PayHere sandbox test cards](https://support.payhere.lk/api-&-mobile-sdk/payhere-checkout#3-test-in-the-sandbox-environment):
-   - **Card:** `4916217501611292`
-   - **Expiry:** Any future date
-   - **CVV:** Any 3 digits
-8. Complete the payment
-9. PayHere redirects you back to `/payment/success`
+| Module | Description |
+|---|---|
+| Menu & Categories | Admin-managed catalog with categories, pricing, images, and availability |
+| Cart & Checkout | Session/DB-backed cart with delivery details and payment selection |
+| Orders | Order creation on checkout, admin status tracking through fulfillment |
+| Payments | COD by default, optional online payment via PayHere |
 
 ---
 
-### How the Notification/Callback Works
+## 📄 License
 
-```
-Customer → PayHere Sandbox → Payment processed
-                ↓
-    PayHere POST /payment/notify   ← Server-to-server (no browser)
-                ↓
-    PaymentController::notify()
-        1. Find order by order_number
-        2. Verify MD5 checksum/hash
-        3. Verify amount & currency
-        4. Map PayHere status code → payment_status
-        5. Update orders.payment_status in database
-```
-
-The `notify_url` must be **publicly accessible** (HTTPS preferred). For local testing, use
-a tunnel such as [ngrok](https://ngrok.com/):
-
-```bash
-ngrok http 8000
-# Then set APP_URL=https://your-ngrok-url.ngrok.io in .env
-```
+This project is open-sourced for portfolio/demo purposes. Feel free to fork and adapt.
 
 ---
 
-### Why Payment Status Is Updated Server-Side
+### 👤 Author
 
-The `/payment/success` return URL is triggered by the **browser** redirecting after payment.
-It is trivially easy to fake. Therefore, FoodHub **never** marks an order as paid based on
-the return URL alone.
-
-Payment status is updated **only** through the `/payment/notify` endpoint, which is called
-directly from PayHere's servers. This endpoint verifies:
-- The MD5 checksum (prevents tampered requests)
-- The payment amount (prevents amount manipulation)
-- The currency (must be LKR)
-
----
-
-### Switching from Sandbox to Production
-
-To switch to live PayHere payments:
-
-1. Register a live account at [payhere.lk](https://www.payhere.lk/)
-2. Update your `.env`:
-
-```env
-PAYHERE_MERCHANT_ID=your_live_merchant_id
-PAYHERE_MERCHANT_SECRET=your_live_merchant_secret
-PAYHERE_SANDBOX=false
-```
-
-No code changes needed. The checkout URL switches automatically based on `PAYHERE_SANDBOX`.
-
----
-
-### Payment Flow Summary
-
-```
-Customer
-  → Cart → Checkout → Select "Pay Online"
-  → POST /checkout (OrderController)
-  → Order created (payment_status = pending)
-  → GET /payment/checkout/{order} (PaymentController)
-  → Auto-submitting form → PayHere Sandbox
-  → Customer completes payment
-  → PayHere POST /payment/notify (server-to-server)
-  → Checksum verified → order updated (payment_status = paid)
-  → Customer redirected → GET /payment/success
-  → Success page reads DB status (does NOT trust URL)
-```
-
----
-
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
-
-
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
-```
-
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Built by **Fathima** — Laravel developer.
